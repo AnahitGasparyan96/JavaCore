@@ -1,7 +1,5 @@
 package homework.arrayutil;
 
-import javax.imageio.plugins.tiff.TIFFImageReadParam;
-
 public class ArrayUtil {
     public static void main(String[] args) {
         int[] array = {28, 25, 62, 22, 55, 82, 5, 96, 77, 8};
@@ -57,7 +55,7 @@ public class ArrayUtil {
 
         //Տպել մասիվի բոլոր կենտ էլեմենտները//
         for (int i = 0; i < array.length; i++) {
-            if (array[i] % 2 == 1) {
+            if (array[i] % 2 != 0) {
                 System.out.print(array[i] + " ");
             }
 
