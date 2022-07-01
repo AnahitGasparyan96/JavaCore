@@ -3,21 +3,25 @@ package homework.books;
 import java.util.Scanner;
 
 public class Demo implements Commads {
+    private static AutherStorage autherStorage = new AutherStorage();
     private static Scanner scanner = new Scanner(System.in);
     private static BookStorage bookStorage = new BookStorage();
 
     public static void main(String[] args) {
-        bookStorage.add(new Book("Dorian Gray", "Oscar Wilde", 3200, 5, "fiction"));
-        bookStorage.add(new Book("Jane Eyre", "Charlotte Bronte", 4000, 3, "romance"));
-        bookStorage.add(new Book("Idiot", "Dostoevski", 5000, 1, "Romace"));
+        Author dorian = new Author("bhshs", "hhhusu", "jsjap", "hhszzz");
+        bookStorage.add(new Book("Dorian Gray", dorian, 3200, 5, "fiction"));
+        Author bronte = new Author("hsda", "jasw", "poooi", "zxzx");
+        bookStorage.add(new Book("Jane Eyre", bronte, 4000, 3, "romance"));
+        Author dostoevski = new Author("uhus", "shhyyy", "hay", "bbbb");
+        bookStorage.add(new Book("Idiot", dostoevski, 5000, 1, "Romace"));
+
+        autherStorage.add(dorian);
+        autherStorage.add(bronte);
+        autherStorage.add(dostoevski);
+
         boolean ran = true;
         while (ran) {
-            System.out.println("Please input " + EXIT + " for exit");
-            System.out.println("Please input " + ADD_BOOK + " for add books");
-            System.out.println("Please input " + PRINT_ALL_BOOKS + " for print all books");
-            System.out.println("Please input " + PRINT_BOOKS_BY_AUTHOR_NAME + " for print books by auther name");
-            System.out.println("Please input " + PRINT_BOOKS_BY_GENRE + " for print books by genre");
-            System.out.println("Please input " + PRINT_BY_PRICE_RANGE + " for print books by price range");
+            Commads.prntCommand();
             int commads = Integer.parseInt(scanner.nextLine());
             switch (commads) {
                 case EXIT:
@@ -38,11 +42,40 @@ public class Demo implements Commads {
                 case PRINT_BY_PRICE_RANGE:
                     printBookByPriceRange();
                     break;
+                case ADD_AUTHOR:
+                    addAuthor();
+                    break;
+                case PRINT_ALL_AUTHORS:
+                    autherStorage.print();
+                    break;
                 default:
                     System.out.println("Indalid command");
 
             }
         }
+    }
+
+    private static Author addAuthor() {
+        System.out.println("Please input Author name");
+        String authorName = scanner.nextLine();
+        System.out.println("Please input Author surname");
+        String authorSurname = scanner.nextLine();
+        System.out.println("Please input Author email");
+        String authoremail = scanner.nextLine();
+        System.out.println("Please choose '1' for male");
+        System.out.println("Please choose '2' for female");
+        String c = String.valueOf(scanner.nextLine().charAt(0));
+        if (Integer.parseInt(c) == 1) {
+            c= "male";
+        } else if (Integer.parseInt(c) == 2) {
+            c = "female";
+
+        }
+        System.out.println("Auther created!");
+        Author author = new Author(authorName, authorSurname, authoremail,c);
+        autherStorage.add(author);
+        return author;
+
     }
 
     private static void printBookByPriceRange() {
@@ -72,8 +105,7 @@ public class Demo implements Commads {
 
         System.out.println("Please input book title");
         String bookTitle = scanner.nextLine();
-        System.out.println(" Please input book's AuthorName");
-        String bookAuthorName = scanner.nextLine();
+        Author author = addAuthor();
         System.out.println("Please input book's price");
         String booksprice = scanner.nextLine();
         System.out.println("Please input book's count");
@@ -82,7 +114,7 @@ public class Demo implements Commads {
         String booksgenre = scanner.nextLine();
         double bp = Double.parseDouble(booksprice);
         int count = Integer.parseInt(bookscount);
-        Book book = new Book(bookTitle, bookAuthorName, bp, count, booksgenre);
+        Book book = new Book(bookTitle, author, bp, count, booksgenre);
         bookStorage.add(book);
         System.out.println("book created");
     }
