@@ -1,4 +1,4 @@
-package homework.books;
+package homework.books.command;
 
 public interface Commads {
     int EXIT = 0;
@@ -9,7 +9,10 @@ public interface Commads {
     int PRINT_BY_PRICE_RANGE = 5;
     int ADD_AUTHOR = 6;
     int PRINT_ALL_AUTHORS = 7;
-    static void prntCommand () {
+    int REGISTRATION = 8;
+    int LOGIN = 9;
+
+    static void prntCommand() {
         System.out.println("Please input " + EXIT + " for exit");
         System.out.println("Please input " + ADD_BOOK + " for add books");
         System.out.println("Please input " + PRINT_ALL_BOOKS + " for print all books");
@@ -18,5 +21,11 @@ public interface Commads {
         System.out.println("Please input " + PRINT_BY_PRICE_RANGE + " for print books by price range");
         System.out.println("Please input " + ADD_AUTHOR + " for add author");
         System.out.println("Please input " + PRINT_ALL_AUTHORS + " for print all authors");
+
+    }
+
+    static void printRegLog() {
+        System.out.println("Please input " + REGISTRATION + " for registration");
+        System.out.println("Please input " + LOGIN + " for sign in");
     }
 }

@@ -1,4 +1,6 @@
-package homework.books;
+package homework.books.storage;
+
+import homework.books.model.Book;
 
 public class BookStorage {
     private Book[] array = new Book[10];

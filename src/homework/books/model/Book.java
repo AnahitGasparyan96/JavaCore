@@ -1,4 +1,6 @@
-package homework.books;
+package homework.books.model;
+
+import homework.books.model.Author;
 
 public class Book {
     private String title;
