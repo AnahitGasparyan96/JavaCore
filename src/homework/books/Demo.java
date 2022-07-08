@@ -1,11 +1,21 @@
 package homework.books;
 
+import homework.books.command.Commads;
+import homework.books.model.Author;
+import homework.books.model.Book;
+import homework.books.model.Registration;
+import homework.books.storage.AutherStorage;
+import homework.books.storage.BookStorage;
+import homework.books.storage.UserStorage;
+
 import java.util.Scanner;
 
 public class Demo implements Commads {
     private static AutherStorage autherStorage = new AutherStorage();
     private static Scanner scanner = new Scanner(System.in);
     private static BookStorage bookStorage = new BookStorage();
+    private static UserStorage userStorage = new UserStorage();
+
 
     public static void main(String[] args) {
         Author dorian = new Author("bhshs", "hhhusu", "jsjap", "hhszzz");
@@ -21,38 +31,88 @@ public class Demo implements Commads {
 
         boolean ran = true;
         while (ran) {
-            Commads.prntCommand();
-            int commads = Integer.parseInt(scanner.nextLine());
-            switch (commads) {
-                case EXIT:
-                    ran = false;
-                    break;
-                case ADD_BOOK:
-                    addBook();
-                    break;
-                case PRINT_ALL_BOOKS:
-                    bookStorage.print();
-                    break;
-                case PRINT_BOOKS_BY_AUTHOR_NAME:
-                    printBookAutherName();
-                    break;
-                case PRINT_BOOKS_BY_GENRE:
-                    printBookByGenre();
-                    break;
-                case PRINT_BY_PRICE_RANGE:
-                    printBookByPriceRange();
-                    break;
-                case ADD_AUTHOR:
-                    addAuthor();
-                    break;
-                case PRINT_ALL_AUTHORS:
-                    autherStorage.print();
-                    break;
-                default:
-                    System.out.println("Indalid command");
+            Commads.printRegLog();
+            int command = 0;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid command");
+            }
+            if (command == REGISTRATION) {
+                regLog();
+            }
+            if (command == LOGIN) {
+                login();
+                while (userStorage.getSize() != 0) {
+                    Commads.prntCommand();
+                    int innerCommand = 0;
+                    try {
+                        innerCommand = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid value");
+                    }
+
+                    switch (innerCommand) {
+
+                        case EXIT:
+                            ran = false;
+                            break;
+                        case ADD_BOOK:
+                            addBook();
+                            break;
+                        case PRINT_ALL_BOOKS:
+                            bookStorage.print();
+                            break;
+                        case PRINT_BOOKS_BY_AUTHOR_NAME:
+                            printBookAutherName();
+                            break;
+                        case PRINT_BOOKS_BY_GENRE:
+                            printBookByGenre();
+                            break;
+                        case PRINT_BY_PRICE_RANGE:
+                            printBookByPriceRange();
+                            break;
+                        case ADD_AUTHOR:
+                            addAuthor();
+                            break;
+                        case PRINT_ALL_AUTHORS:
+                            autherStorage.print();
+                            break;
+                        default:
+                            System.out.println("Indalid command");
+
+                    }
+                }
 
             }
         }
+    }
+
+
+    private static void login() {
+        System.out.println("Please input user's login");
+        String login = scanner.nextLine();
+        System.out.println("Please input user's passport");
+        String passport = scanner.nextLine();
+
+        userStorage.loguser(login, passport);
+    }
+
+
+    private static void regLog() {
+        System.out.println("Please input user's name");
+        String name = scanner.nextLine();
+        System.out.println("Please input user's surname");
+        String surname = scanner.nextLine();
+        System.out.println("Please input user's age");
+        int age = Integer.parseInt(scanner.nextLine());
+        System.out.println("Please input user's login");
+        String login = scanner.nextLine();
+        System.out.println("Please input user's passport");
+        String passport = scanner.nextLine();
+        Registration registration = new Registration(name, surname, age, login, passport);
+
+        userStorage.regUser(registration);
     }
 
     private static Author addAuthor() {
@@ -66,13 +126,13 @@ public class Demo implements Commads {
         System.out.println("Please choose '2' for female");
         String c = String.valueOf(scanner.nextLine().charAt(0));
         if (Integer.parseInt(c) == 1) {
-            c= "male";
+            c = "male";
         } else if (Integer.parseInt(c) == 2) {
             c = "female";
 
         }
         System.out.println("Auther created!");
-        Author author = new Author(authorName, authorSurname, authoremail,c);
+        Author author = new Author(authorName, authorSurname, authoremail, c);
         autherStorage.add(author);
         return author;
 
